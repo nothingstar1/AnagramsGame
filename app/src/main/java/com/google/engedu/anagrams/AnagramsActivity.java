@@ -42,7 +42,7 @@ import java.util.List;
 
 public class AnagramsActivity extends AppCompatActivity {
 
-    public static final String START_MESSAGE = "Find as many words as possible that can be formed by adding one letter to <big>%s</big> (but that do not contain the substring %s).";
+    public static final String START_MESSAGE = "Find as many words as possible that can be formed by adding one or two letters to <big>%s</big> (but that do not contain the substring %s).";
     private AnagramDictionary dictionary;
     private String currentWord;
     private List<String> anagrams;
@@ -89,6 +89,8 @@ public class AnagramsActivity extends AppCompatActivity {
         if (dictionary.isGoodWord(word, currentWord) && anagrams.contains(word)) {
             anagrams.remove(word);
             color = "#00aa29";
+        } else if(dictionary.isGoodWord(word, currentWord) && word.trim().contains(" ")) {
+            color = "#267cbf";
         } else {
             word = "X " + word;
         }
@@ -127,7 +129,7 @@ public class AnagramsActivity extends AppCompatActivity {
         TextView resultView = (TextView) findViewById(R.id.resultView);
         if (currentWord == null) {
             currentWord = dictionary.pickGoodStarterWord();
-            anagrams = dictionary.getAnagramsWithOneMoreLetter(currentWord);
+            anagrams = dictionary.getAnagramsWithOneOrTwoMoreLetters(currentWord);
             gameStatus.setText(Html.fromHtml(String.format(START_MESSAGE, currentWord.toUpperCase(), currentWord)));
             fab.setImageResource(android.R.drawable.ic_menu_help);
             fab.hide();
